@@ -38,7 +38,7 @@ int PigSty::get_BflowerNum() {
 int PigSty::getTot() {
 	return thisSty_tot;
 }
-int PigSty::isBlackPig() {
+int PigSty::isAllBlack() {
 	return isBlack;
 }          
 pig* PigSty::getHead() {

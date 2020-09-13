@@ -44,7 +44,7 @@ public:
 	//获取总数量 
 	int getTot();
 	//判断是否为小黑 
-	int isBlackPig();
+	int isAllBlack();
 	void save(ofstream& savefile);
 	//获取猪圈头指针               
 	pig* getHead();

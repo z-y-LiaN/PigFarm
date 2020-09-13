@@ -68,7 +68,7 @@ void buyPigs(int bpig, int lpig, int wpig, PigSty pigStys[]) {
 	int average = allPigsNum / 100 + 1;
 	while (bpig--) {
 		for (int i = 0; i < 100; i++) {
-			if (pigStys[i].isBlackPig() == 1 && pigStys[i].getTot() <=average) {
+			if (pigStys[i].isAllBlack() == 1 && pigStys[i].getTot() <=average) {
 				pigStys[i].insert(1);
 				break;
 			}
@@ -82,7 +82,7 @@ void buyPigs(int bpig, int lpig, int wpig, PigSty pigStys[]) {
 	//平均分配	
 	while (1) {
 		for (int i = 0; i < 100; i++) {
-			if (pigStys[i].isBlackPig() == 0) {
+			if (pigStys[i].isAllBlack() == 0) {
 				if (lpig > 0 && pigStys[i].getTot() <= average) {
 					pigStys[i].insert(2);
 					lpig--;
@@ -135,7 +135,7 @@ void StartNew(PigSty Stys[]) {
 	DayCount = 0;
 	sell_Times_Count = 0;
 	ofstream f;
-	f.open("isFirstGame.txt");//打开123文件 
+	f.open("isFirstGame.txt");//文件 
 	f << 0; //向文件里面写个0 ，写的时候不需要这个文件一定存在，不存在就在目录下面自动创建一个 
 	f.close(); //关闭文件 
 	f.open("Allpigs.txt"); //打开456文件 
@@ -151,14 +151,14 @@ void StartNew(PigSty Stys[]) {
 		p->breedDay = 0;
 		p->isDead = 0;
 		int i = rand() % 100;
-		if (p->species == 1 && (Stys[i].isBlackPig() == 1 || Stys[i].getHead() == NULL) && Stys[i].getTot() < 10) {
+		if (p->species == 1 && (Stys[i].isAllBlack() == 1 || Stys[i].getHead() == NULL) && Stys[i].getTot() < 10) {
 			p->number = Stys[i].getTot();
 			Stys[i].addOnePig(p);  //把这个猪入圈 
 			Stys[i].setisBlackPig(1);  //标记这个为黑圈 
 			continue;
 		}
 		//如果不是 小黑，并且这个圈全是花花    且没有满 
-		else if (p->species != 1 && Stys[i].isBlackPig() == 0 && Stys[i].getTot() < 10) {//<10???
+		else if (p->species != 1 && Stys[i].isAllBlack() == 0 && Stys[i].getTot() < 10) {//<10???
 			p->number = Stys[i].getTot();
 			Stys[i].addOnePig(p);   // 
 			continue;

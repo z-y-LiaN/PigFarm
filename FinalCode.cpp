@@ -162,10 +162,20 @@ int main()
 					break;
 				}
 				case 5: {//下一天
+					if (MonthCount == 3)
+					{
+						cout << "已经三个月啦，请先出圈" << endl;
+						break;
+
+					}
 					for (int i = 0; i < 100; i++) {
 						Stys[i].next(1);
 					}
 					DayCount++;
+					if (DayCount > 30) {
+						DayCount -= 30;
+						MonthCount++;
+					}
 					Menu_initial();
 					break;
 				}
@@ -228,5 +238,4 @@ int main()
 		}
 	    cin >> MenuChoice;
 	} while (1);
-
 }
