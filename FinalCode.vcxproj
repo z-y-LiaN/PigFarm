@@ -139,13 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="epedemic.cpp" />
     <ClCompile Include="FinalCode.cpp" />
     <ClCompile Include="mfunc.cpp" />
     <ClCompile Include="pigsty.cpp" />
+    <ClCompile Include="printFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="menu.h" />
     <ClInclude Include="mfunc.h" />
     <ClInclude Include="pigsty.h" />
+    <ClInclude Include="printFunc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,53 +5,47 @@
 #include<iomanip>
 using namespace std;
 //构造
-PigFarm::PigFarm() {
-	cntnum = 0;
-	isblackspecies = 0;
+PigSty::PigSty() {
+	thisSty_tot = 0;
+	isBlack = 0;
+	state = 0;
 	head = NULL;
 }
-//获取小黑数量 
-int PigFarm::getspecies1() {
+int PigSty::get_BlackNum() {
 	int count = 0;
-	for (int i = 0; i < cntnum; i++) {
-		if (getspecies(i) == 1)
+	for (int i = 0; i < thisSty_tot; i++) {
+		if (getSpecies(i) == 1)
 			count++;
 	}
 	return count;
 }
-//获取小花数量 
-int PigFarm::getspecies2() {
+int PigSty::get_SflowerNum() {
 	int count = 0;
-	for (int i = 0; i < cntnum; i++) {
-		if (getspecies(i) == 2)
+	for (int i = 0; i < thisSty_tot; i++) {
+		if (getSpecies(i) == 2)
 			count++;
 	}
 	return count;
 }
-//获取大花数量 
-int PigFarm::getspecies3() {
+int PigSty::get_BflowerNum() {
 	int count = 0;
-	for (int i = 0; i < cntnum; i++) {
-		if (getspecies(i) == 3)
+	for (int i = 0; i < thisSty_tot; i++) {
+		if (getSpecies(i) == 3)
 			count++;
 	}
 	return count;
 }
-//获取该猪圈的总数量 
-int PigFarm::getcount() {
-	return cntnum;
+int PigSty::getTot() {
+	return thisSty_tot;
 }
-//判断是否为小黑 
-int PigFarm::getisBlackPig() {
-	return isblackspecies;
-}
-//获取猪圈头指针               
-pig* PigFarm::gethead() {
+int PigSty::isBlackPig() {
+	return isBlack;
+}          
+pig* PigSty::getHead() {
 	return head;
 }
-//添加猪，尾插法 
-void PigFarm::addpig(pig* p) {
-	cntnum++;
+void PigSty::addOnePig(pig* p) {
+	thisSty_tot++;
 	p->next = NULL;
 	if (head == NULL) {
 		head = p;
@@ -64,83 +58,129 @@ void PigFarm::addpig(pig* p) {
 		p1->next = p;
 	}
 }
-//获取第i个猪的品种 
-int PigFarm::getspecies(int i) {
+int PigSty::getSpecies(int i) {
 	pig* p = head;
+
+
 	for (int j = 0; j < i && p; j++) {
+		if (p->number == i) break;////改动1,下面也是
 		p = p->next;
 	}
 	return p->species;
 }
-
-//获取第i个猪体重 
-double PigFarm::getweight(int i) {
+double PigSty::getWeight(int i) {
 	pig* p = head;
 	for (int j = 0; j < i && p; j++) {
+		if (p->number == i) break;
 		p = p->next;
 	}
 	return p->weight;
 }
-//获取第i个猪的生长月份 
-int PigFarm::getgrowmonth(int i) {
+int PigSty::getBreedMon(int i) {
 	pig* p = head;
 	for (int j = 0; j < i && p; j++) {
+		if (p->number == i) break;
 		p = p->next;
 	}
-	return p->growmonth;
+	return p->breedMon;
 }
-//获取第i个猪生长日期 
-int PigFarm::getgrowday(int i) {
+int PigSty::getBreedDay(int i) {
 	pig* p = head;
 	for (int j = 0; j < i && p; j++) {
+		if (p->number == i) break;
 		p = p->next;
 	}
-	return p->growday;
+	return p->breedDay;
 }
-
-//获取最终出价。出圈 
-double PigFarm::getprice() {
+////////////////////////////////////////////////
+//double PigSty::getPrice() {
+//	double sellprice = 0;
+//	if (head == NULL)
+//		return 0;
+//	pig* p = head;
+//	pig* p1 = p;
+//	while (p) {
+//		int bmon = p->breedMon;
+//		int bday = p->breedDay;
+//		if (bday >= 30) {
+//			bday -= 30;
+//			bmon++;
+//		}
+//		if (bmon >= 12 || p->weight > 75) {
+//			if (p->species == 1) {
+//				sellprice += 30 * p->weight;
+//			}
+//			if (p->species == 2) {
+//				sellprice += 14 * p->weight;
+//			}
+//			if (p->species == 3) {
+//				sellprice += 12 * p->weight;
+//			}
+//			if (p == head) {
+//				if (thisSty_tot == 1) {
+//					thisSty_tot--;
+//					head = NULL;
+//					delete p;
+//                    setisBlackPig(0);
+//					return sellprice;
+//				}
+//				else {
+//					head = p->next;
+//					p1 = head;
+//					thisSty_tot--;
+//					delete p;
+//					p = head;
+//				}
+//			}
+//			else {
+//				p1->next = p->next;
+//				delete p;
+//				thisSty_tot--;
+//			}
+//		}
+//		else p1 = p;
+//		p = p1->next;
+//	}
+//	return sellprice;
+//}
+////////////////////////////////////////////////////////////////////////////////
+double PigSty::getPrice() {
 	double sellprice = 0;
-	if (head == 0)
+	if (head == NULL)
 		return 0;
 	int month, day, flag = 0;
 	pig* p = head, * p1 = p;
 	//依次循环判断每头猪 
 	while (p) {
-		month = p->growmonth;
-		day = p->growday;
+		month = p->breedMon;
+		day = p->breedDay;
 		while (day >= 30) {
 			day -= 30;
 			month++;
 		}
 		//月份大于12，或者体重大于75kg 
 		if (month >= 12 || p->weight > 75) {
-			if (cntnum == 1) {
+			if (thisSty_tot == 1) {
 				setisBlackPig(0);
 				head = NULL;
 				delete p;
-				cntnum--;
+				thisSty_tot--;
 				break;
 			}
-			//如果最后只剩一头猪，且要出栏，最后释放指针，要跳出循环  
-			// 小黑 
+			//如果最后只剩一头猪，且要出栏，最后释放指针，要跳出
 			if (p->species == 1) {
 				sellprice += 30 * p->weight;
 			}
-			//小花 
 			if (p->species == 2) {
 				sellprice += 14 * p->weight;
 			}
-			//大花 
 			if (p->species == 3) {
 				sellprice += 12 * p->weight;
 			}
-			
-			//挂空警告 
 			p1->next = p->next;
 			delete p;
 			p = p1->next;
-			cntnum--;
+			thisSty_tot--;
 			continue;
 		}
 		else if (flag == 0) {
@@ -152,9 +192,8 @@ double PigFarm::getprice() {
 	}
 	return sellprice;  //获得该个猪圈出栏总价 
 }
-
 //程序输出到文件 
-void PigFarm::save(ofstream& savefile) {
+void PigSty::save(ofstream& savefile) {
 
 	if (head == NULL) {
 		savefile << '$' << endl;
@@ -163,31 +202,30 @@ void PigFarm::save(ofstream& savefile) {
 	else {
 		pig* p = head;
 		int i = 0;
-		savefile << cntnum << endl;//向文件写入该个猪圈总数 ，换行 
+		savefile << thisSty_tot << endl;//向文件写入该个猪圈总数 ，换行 
 		while (p) {
-			savefile << getspecies(i) << "   " << getweight(i) << "   " << getgrowmonth(i) << "   " << getgrowday(i) << endl;
+			savefile << getSpecies(i) << "   " << getWeight(i) << "   " << getBreedMon(i) << "   " << getBreedDay(i) << endl;
 			//依次向文件写入品种，体重，月份，日子 
 			i++;
 			p = p->next;
 		}
 	}
 }
-
 //查询该个猪圈的信息 
-void PigFarm::print() {
-	if (cntnum == 0) {
+void PigSty::print() {
+	if (thisSty_tot == 0) {
 		cout << "    属性：空猪圈 " << endl;
 		return;
 	}
-	if (isblackspecies == 1) {
-		cout << "    属性：黑猪圈 " <<"总量： "<< cntnum<<" 头"<<endl;
+	if (isBlack == 1) {
+		cout << "    属性：黑猪圈 " <<"总量： "<< thisSty_tot<<" 头"<<endl;
 	}
 	else
-		cout << "    属性：花猪圈 " << "总量： " << cntnum << " 头"<< endl;
+		cout << "    属性：花猪圈 " << "总量： " << thisSty_tot << " 头"<< endl;
 	pig* p = head;
 	while (p) {
-		int month = p->growmonth;
-		int day = p->growday;
+		int month = p->breedMon;
+		int day = p->breedDay;
 		while (day >= 30) {
 			day -= 30;
 			month++;
@@ -203,19 +241,19 @@ void PigFarm::print() {
 	}
 }
 //刷新第二天体重 
-void PigFarm::next(int nexttime) {
-	srand((unsigned)time(NULL));
+void PigSty::next(int nexttime) {
+	//srand((unsigned)time(NULL));
 	pig* p = head;
 	while (p) {
-		p->weight += (double)(rand() % 12) * nexttime / 10;//(直接取余1.2不行啊 
-		if (nexttime == 1)	p->growday++;
-		else p->growmonth++;
+		p->weight += (double)(rand() % 12) * nexttime / 10;
+		if (nexttime == 1)	p->breedDay++;
+		else p->breedMon++;
 		p = p->next;  //存疑 
 	}
 }
 
 //查找该个猪圈某个地方有没有猪 
-bool PigFarm::search(int number) {
+bool PigSty::havePig(int number) {
 	pig* p = head;
 	while (p) {
 		if (p->number == number)
@@ -227,14 +265,14 @@ bool PigFarm::search(int number) {
 }
 
 //猪圈全部清空
-void PigFarm::clearpigjuan() {
+void PigSty::clearStys() {
 	if (head == NULL) {
 		return;
 	}
 	else {
 		pig* p = head;
 		pig* p1 = p;
-		cntnum = 0;
+		thisSty_tot = 0;
 		setisBlackPig(0);
 		head = NULL;
 		while (p) {
@@ -246,25 +284,26 @@ void PigFarm::clearpigjuan() {
 	}
 }
 //补充猪仔，按照品种补充猪仔 
-void PigFarm::insert(int species) {
+void PigSty::insert(int species) {
 	pig* p = new pig;
-	srand((unsigned)time(NULL));
 	p->species = species;
 	p->weight = double(rand() % 30 + 20);
-	p->growmonth = 0;
-	p->growday = 0;
+	p->breedMon = 0;
+	p->breedDay = 0;
+	//空圈
 	if (head == NULL) {
 		p->number = 0;
 		p->next = NULL;
 		head = p;
-		cntnum++;
+		thisSty_tot++;
 		return;
 	}
+	//最开始的位置没有放
 	if (head->number != 0) {
 		p->number = 0;
 		p->next = head;
 		head = p;
-		cntnum++;
+		thisSty_tot++;
 		return;
 	}
 	else {
@@ -275,8 +314,8 @@ void PigFarm::insert(int species) {
 			p2 = p1;
 			p1 = p1->next;
 		}
-		if (p1->next == NULL) {
-			p->number = cntnum;
+		if (p1->next == NULL&&(thisSty_tot>p1->number)) {
+			p->number = thisSty_tot;
 			p->next = NULL;
 			p1->next = p;
 		}
@@ -285,9 +324,10 @@ void PigFarm::insert(int species) {
 			p2->next = p;
 			p->next = p1;
 		}
-		cntnum++;
+		thisSty_tot++;
 	}
 }
-void PigFarm::setisBlackPig(int i) {
-	isblackspecies = i;
+void PigSty::setisBlackPig(int i) {
+	isBlack = i;
 }
+

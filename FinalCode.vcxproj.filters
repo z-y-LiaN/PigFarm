@@ -24,12 +24,24 @@
     <ClCompile Include="mfunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="epedemic.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="printFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pigsty.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="mfunc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="printFunc.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
