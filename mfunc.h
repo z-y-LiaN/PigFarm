@@ -20,7 +20,6 @@ void StartfromLast(PigSty pjuan[]);
 void StartNew(PigSty pjuan[]);
 //把程序数输出到文件里面 
 void savefile(PigSty pjuan[]);
-
 //初始化 
 void Menu_initial();
 //获得100个猪圈的总数 
@@ -39,4 +38,6 @@ int epd(PigSty* Stys,int i,int j);
 void RequireAllPigs(PigSty*Stys);
 
 void isolate(PigSty* Stys,int i,int j);
+
+void OutPigs(PigSty* Stys);
 

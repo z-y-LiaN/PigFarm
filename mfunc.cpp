@@ -1,4 +1,5 @@
 #include"mfunc.h"
+#include"printFunc.h"
 #include<stdlib.h>
 #include<time.h>
 #include<iostream>
@@ -274,7 +275,6 @@ void statistic(PigSty pigStys[])
 	cout << "                   " << "≥半年 :  " << BFm7_12 << " 头" << endl;
 	cout << "---------------------------------------------------------" << endl;
 }
-//
 void RequireOneSty(PigSty Stys[])
 {
 	int styNum;
@@ -294,7 +294,6 @@ void RequireOneSty(PigSty Stys[])
 	cout << ' ' << left << setw(20) << Stys[styNum].getTot() << left << setw(20) << Stys[styNum].get_BlackNum() << left << setw(20) << Stys[styNum].get_SflowerNum() << left << setw(20) << Stys[styNum].get_BflowerNum() << "\n\n";
 	cout << "------------------------------------------------------------------" << endl;
 }
-//
 void RequireOnePig(PigSty Stys[])
 {
 	int styNum, pigNum;
@@ -348,4 +347,62 @@ void RequireAllPigs(PigSty*Stys) {
 		Stys[i].print();
 		if (i == 99) cout << "======================查询结束===============================" << endl;
 	}
+}
+
+
+void OutPigs(PigSty* Stys) {
+
+	double sellprice = 0;
+	for (int i = 0; i < 100; i++) {
+		sellprice += Stys[i].getPrice();
+	}
+	int temp = getAllPigs(Stys), outpignum = allPigsNum - temp;
+	allPigsNum = temp;
+	cout << "-----------------------------------------------------" << endl;
+	cout << "本次出圈数： " << outpignum << "头    总价:" << sellprice << "元\n";
+	cout << "-----------------------------------------------------" << endl;
+	TotMoney += sellprice;
+	int blackpig = 0, empSty = 0, FlowerPigCnt = 0;
+	for (int i = 0; i < 100; i++) {
+		if (Stys[i].getTot() == 0) { empSty++; continue; }
+		if (Stys[i].get_BlackNum())   blackpig += 10 - Stys[i].get_BlackNum();
+		else FlowerPigCnt += 10 - Stys[i].getTot();
+	}
+	int bpig, lpig, wpig;
+	printBuyPrice();
+	cout << "请依次输入本次购入的黑猪，小花猪，大花白猪数：";
+	cin >> bpig >> lpig >> wpig;
+	//tmp填满未满的黑猪圈，在用了空猪圈后剩余的猪圈可装的花猪数量
+	int tmp = (empSty - (bpig - blackpig) / 10) * 10;
+	while (1) {
+		if (bpig > blackpig + empSty * 10 || lpig > empSty * 10 + FlowerPigCnt || wpig > empSty * 10 + FlowerPigCnt || lpig + wpig > empSty * 10 + FlowerPigCnt)
+			cout << "猪数超过猪场容纳量，请重新输入：\n";
+		else if (TotMoney < (1500 * bpig + 1300 * lpig + 1000 * wpig))
+			cout << "余额不足，请重新输入\n";
+		else if ((tmp < lpig + wpig) && bpig > blackpig)
+			cout << "购猪组合不合理，黑猪与其他猪不能混养，请重新输入：\n";
+		else if (TotMoney >= 5000000) {
+			cout << "！！！！！！！！恭喜你通过养猪赚够五百万啦！！！！！！！" << endl;
+			exit(0);
+		}
+		else break;
+		cin >> bpig >> lpig >> wpig;
+	}
+	TotMoney -= (1500 * bpig + 1300 * lpig + 1000 * wpig);
+	allPigsNum += bpig + lpig + wpig;
+	buyPigs(bpig, lpig, wpig, Stys);
+	cout << "购买成功，现在养猪场总猪数： " << allPigsNum << endl;
+	save_SoldInfo(outpignum, sellprice, bpig, lpig, wpig, TotMoney);
+	sell_Times_Count++;
+	while (DayCount >= 30) {
+		DayCount -= 30;
+		MonthCount++;
+	}
+	MonthCount -= 3;
+	cin.get();
+	cin.get();
+	Menu_initial();
+
+
+
 }
