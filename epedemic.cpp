@@ -75,7 +75,6 @@ void PigSty::deleteOne(int j) {
 		thisSty_tot--;
 	}
 }
-
 int NotallDead(PigSty* Stys) {
 	for (int i = 0; i < 100; i++) {
 		if (Stys[i].getHead() == NULL) continue;
@@ -91,21 +90,9 @@ void isolate(PigSty* Stys,int i,int j) {
 
 int epd(PigSty* Stys,int i,int j)
 {
-	//int i, j;  //第i个圈，第j值猪 
-	//while (1) {
-	//	i = rand() % 100;
-	//	j = rand() % 10;
-	//	bool have = Stys[i].havePig(j);
-	//	if (have)
-	//		break;
-	//	else continue;
-	//}
 	Stys[i].setisDead(j);
 	Stys[i].setState();
 	int allDeadDay = 1;
-	//开始传播	
-//	cout << "开始这个猪圈的状态    " << Stys[i].getState() << endl;;
-//	cout<<"是1的话代表整个猪圈有活的   "<<NotallDead(Stys);
 	int pd = NotallDead(Stys);
 	while (pd != 0) {
 		for (int k = 0; k < 100; k++) {
@@ -125,8 +112,6 @@ int epd(PigSty* Stys,int i,int j)
 					Stys[k].Pro50();
 			}
 		}
-		//		cout<<"第"<<allDeadDay-1<<"天"<<endl;
-				//更新猪圈状态 
 		for (int m = 0; m < 100; m++) {
 			if (Stys[m].getHead() != NULL)
 				Stys[m].setState();

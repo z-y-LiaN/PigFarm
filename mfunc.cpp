@@ -8,7 +8,7 @@ using namespace std;
 //读取出圈信息 
 void RequireSell() {
 	ifstream read;
-	read.open("AllPigs.txt");
+	read.open("Eachsale.txt");
 	if (!read) {
 		cout << "打开文件失败";
 		exit(0);
@@ -52,18 +52,18 @@ void saveInfo() {
 //保存售卖出去的信息 
 void save_SoldInfo(int outpignum, double sellprice, int bpig, int lpig, int wpig,double money) {
 	ifstream testin;
-	testin.open("AllPigs.txt");
+	testin.open("Eachsale.txt");
 	char flag;
 	testin >> flag;
 	if (flag == '#') {
 		testin.close();
 		ofstream testout;
-		testout.open("AllPigs.txt");
+		testout.open("Eachsale.txt");
 		testout << '$';
 		testout.close();
 	}
 	else testin.close();
-	ofstream save("Allpigs.txt", ios::app);
+	ofstream save("Eachsale.txt", ios::app);
 	save << sell_Times_Count << endl;
 	save << outpignum << "   " << sellprice << "    " << bpig << "   " << lpig << "   " << wpig <<"  "<<money << endl;
 	save.close();
@@ -144,7 +144,7 @@ void StartNew(PigSty Stys[]) {
 	f.open("isFirstGame.txt");//文件 
 	f << 0; //向文件里面写个0 ，写的时候不需要这个文件一定存在，不存在就在目录下面自动创建一个 
 	f.close(); //关闭文件 
-	f.open("Allpigs.txt"); //打开456文件 
+	f.open("Eachsale.txt"); //打开 
 	f << '#'; //写个# 
 	f.close(); //关闭文件 
 	pig* p;
@@ -166,7 +166,7 @@ void StartNew(PigSty Stys[]) {
 		//如果不是 小黑，并且这个圈全是花花    且没有满 
 		else if (p->species != 1 && Stys[i].isAllBlack() == 0 && Stys[i].getTot() < 10) {//<10???
 			p->number = Stys[i].getTot();
-			Stys[i].addOnePig(p);   // 
+			Stys[i].addOnePig(p);   
 			continue;
 		}
 		else count++;
@@ -341,9 +341,6 @@ void RequireOnePig(PigSty Stys[])
 	if (month > 0)cout << month << "月";
 	cout << day << "天\n\n";
 }
-
-
-///////
 void RequireAllPigs(PigSty*Stys) {
 	for (int i = 0; i < 100; i++) {
 		cout << "=============================================================" << endl;

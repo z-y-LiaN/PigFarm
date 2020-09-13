@@ -191,7 +191,6 @@ double PigSty::getPrice() {
 	}
 	return sellprice;  //获得该个猪圈出栏总价 
 }
-//程序输出到文件 
 void PigSty::save(ofstream& savefile) {
 
 	if (head == NULL) {
@@ -201,16 +200,14 @@ void PigSty::save(ofstream& savefile) {
 	else {
 		pig* p = head;
 		int i = 0;
-		savefile << thisSty_tot << endl;//向文件写入该个猪圈总数 ，换行 
+		savefile << thisSty_tot << endl;
 		while (p) {
 			savefile << getSpecies(i) << "   " << getWeight(i) << "   " << getBreedMon(i) << "   " << getBreedDay(i) << endl;
-			//依次向文件写入品种，体重，月份，日子 
 			i++;
 			p = p->next;
 		}
 	}
 }
-//查询该个猪圈的信息 
 void PigSty::print() {
 	if (thisSty_tot == 0) {
 		cout << "    属性：空猪圈   " << endl;
@@ -242,13 +239,12 @@ void PigSty::print() {
 }
 //刷新第二天体重 
 void PigSty::next(int nexttime) {
-	//srand((unsigned)time(NULL));
 	pig* p = head;
 	while (p) {
 		p->weight += (double)(rand() % 12) * nexttime / 10;
 		if (nexttime == 1)	p->breedDay++;
 		else p->breedMon++;
-		p = p->next;  //存疑 
+		p = p->next;  
 	}
 }
 
