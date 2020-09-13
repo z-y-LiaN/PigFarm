@@ -25,8 +25,14 @@ void RequireSell() {
 		if (read.eof()) break;
 		read >> outpigs >> sellprice >> bpig >> lpig >> wpig>>money;
 		cout << "第" << times / 4 + 1 << "年";
-		cout << "第" << (times % 4 + 1) << "个3月：\n";
-		cout << "出圈猪数：" << outpigs << "     获得收益：" << sellprice << "   购进黑猪数：" << bpig << "   小花猪数：" << lpig << "   大白花猪数：" << wpig <<"   余额："<<money<< endl;
+		cout << "第" << (times % 4 + 1) << "次出圈：\n";
+		cout << "     出圈猪数：" << outpigs << "     获得收益：￥" << sellprice << endl;
+		cout << "     购进猪崽情况：" << endl;
+		cout << "                  黑猪数:     " << setw(5)<<bpig << endl;
+		cout << "                  小花猪数：  " <<setw(5)<<lpig << endl;
+		cout << "                  大白花猪数：" << setw(5)<<wpig<< endl;
+		cout<< "      余额：￥" << money << endl;
+		cout << "-----------------------------------------------------------\n";
 	}
 	read.close();
 }
@@ -74,7 +80,7 @@ void buyPigs(int bpig, int lpig, int wpig, PigSty pigStys[]) {
 			}
 			if (pigStys[i].getHead() == NULL) {
 				pigStys[i].insert(1);
-				pigStys[i].setisBlackPig(1);
+				pigStys[i].setisBlackSty(1);
 				break;
 			}
 		}
@@ -154,7 +160,7 @@ void StartNew(PigSty Stys[]) {
 		if (p->species == 1 && (Stys[i].isAllBlack() == 1 || Stys[i].getHead() == NULL) && Stys[i].getTot() < 10) {
 			p->number = Stys[i].getTot();
 			Stys[i].addOnePig(p);  //把这个猪入圈 
-			Stys[i].setisBlackPig(1);  //标记这个为黑圈 
+			Stys[i].setisBlackSty(1);  //标记这个为黑圈 
 			continue;
 		}
 		//如果不是 小黑，并且这个圈全是花花    且没有满 
@@ -306,17 +312,12 @@ void RequireOnePig(PigSty Stys[])
 		}
 		else { cout << "输入错误，请重新输入："; cin >> styNum; }
 	}
-	cout << "此猪圈共有" << Stys[styNum].getTot() << "头猪 , 请输入查询编号 "<<endl;
+	cout << "此猪圈共有" << Stys[styNum].getTot() << "头猪 , 请输入查询编号 ： ";
 	cin >> pigNum;
 	while (1) {
 
-		if (Stys[styNum].havePig(pigNum)) {
-		//	cout << "编号" << pigNum << " 的猪圈有猪" << endl;
-		//	cout << "品种是" << Stys[styNum].getSpecies(pigNum) << endl;
-		//	cout << "体重是" << Stys[styNum].getWeight(pigNum) << endl;
-		////	cout << "饲养时间是" << Stys[styNum].getSpecies(pigNum) << endl;
+		if (Stys[styNum].havePig(pigNum)) 
 			break;
-		}
 		else
 		{
 			if (pigNum < 0 || pigNum>9)
@@ -326,7 +327,8 @@ void RequireOnePig(PigSty Stys[])
 			cin >> pigNum;
 		}
 	}
-	cout << "猪的品种                        体重/kg                        饲养时间" << endl;
+	cout <<"查询结果："<< endl;
+	cout << "猪的品种            |            体重/kg               |         饲养时间" << endl;
 	if (Stys[styNum].getSpecies(pigNum) == 1)   cout << " 黑猪    " << "                         ";
 	if (Stys[styNum].getSpecies(pigNum) == 2)   cout << " 小花猪  " << "                         ";
 	if (Stys[styNum].getSpecies(pigNum) == 3)	cout << "大白花猪 " << "                         ";
@@ -344,9 +346,9 @@ void RequireOnePig(PigSty Stys[])
 ///////
 void RequireAllPigs(PigSty*Stys) {
 	for (int i = 0; i < 100; i++) {
-		cout << "================================================" << endl;
+		cout << "=============================================================" << endl;
 		cout << i << "号圈:" << endl;
 		Stys[i].print();
-		if (i == 99) cout << "=================查询结束=======================" << endl;
+		if (i == 99) cout << "======================查询结束===============================" << endl;
 	}
 }

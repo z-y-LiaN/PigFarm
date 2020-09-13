@@ -4,7 +4,6 @@
 #include<time.h>
 #include<iomanip>
 using namespace std;
-//构造
 PigSty::PigSty() {
 	thisSty_tot = 0;
 	isBlack = 0;
@@ -161,7 +160,7 @@ double PigSty::getPrice() {
 		//月份大于12，或者体重大于75kg 
 		if (month >= 12 || p->weight > 75) {
 			if (thisSty_tot == 1) {
-				setisBlackPig(0);
+				setisBlackSty(0);
 				head = NULL;
 				delete p;
 				thisSty_tot--;
@@ -214,14 +213,15 @@ void PigSty::save(ofstream& savefile) {
 //查询该个猪圈的信息 
 void PigSty::print() {
 	if (thisSty_tot == 0) {
-		cout << "    属性：空猪圈 " << endl;
+		cout << "    属性：空猪圈   " << endl;
 		return;
 	}
 	if (isBlack == 1) {
-		cout << "    属性：黑猪圈 " <<"总量： "<< thisSty_tot<<" 头"<<endl;
+		cout << "    属性：黑猪圈   "<<"    总量： "<< thisSty_tot<<" 头"<<endl;
 	}
 	else
-		cout << "    属性：花猪圈 " << "总量： " << thisSty_tot << " 头"<< endl;
+		cout << "    属性：花猪圈   " << "    总量： " << thisSty_tot << " 头"<< endl;
+	cout << endl;
 	pig* p = head;
 	while (p) {
 		int month = p->breedMon;
@@ -232,11 +232,11 @@ void PigSty::print() {
 		}
 		int i = p->number;
 		cout <<"    "<< i << "号猪：";
-		if (p->species == 1)cout << "黑猪     ";
-		if (p->species == 2)cout << "小花猪   ";
-		if (p->species == 3)cout << "大白花猪 ";
-		cout<<"体重:"<<setw(5)<< p->weight << "Kg  ";
-		cout << "饲养时间:  " << month << "月" << day << "天" << endl;
+		if (p->species == 1)cout << "黑猪      |";
+		if (p->species == 2)cout << "小花猪    |";
+		if (p->species == 3)cout << "大白花猪  |";
+		cout<<"   体重:"<<setw(5)<< p->weight << "Kg   |";
+		cout << "   饲养时间:  " << month << "月" << day << "天" << endl;
 		p = p->next;
 	}
 }
@@ -273,7 +273,7 @@ void PigSty::clearStys() {
 		pig* p = head;
 		pig* p1 = p;
 		thisSty_tot = 0;
-		setisBlackPig(0);
+		setisBlackSty(0);
 		head = NULL;
 		while (p) {
 			p1 = p;
@@ -327,7 +327,8 @@ void PigSty::insert(int species) {
 		thisSty_tot++;
 	}
 }
-void PigSty::setisBlackPig(int i) {
+
+void PigSty::setisBlackSty(int i) {
 	isBlack = i;
 }
 

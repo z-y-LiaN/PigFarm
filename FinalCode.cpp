@@ -121,8 +121,8 @@ int main()
 							cout << "余额不足，请重新输入\n";
 						else if ((tmp < lpig + wpig) && bpig > blackpig)
 							cout << "购猪组合不合理，黑猪与其他猪不能混养，请重新输入：\n";
-						else if (TotMoney>= 10000000) {
-							cout << "赚够一千万，win" << endl;
+						else if (TotMoney>= 5000000) {
+							cout << "！！！！！！！！恭喜你通过养猪赚够五百万啦！！！！！！！" << endl;
 							exit(0);
 						}
 						else break;
@@ -206,8 +206,10 @@ int main()
 							break;
 						else continue;
 					}
+					cout <<"------------疫情发生--------------"<< endl;
 					cout << "第 " << i << " 个猪圈的编号为 " << j << " 的猪染病" << endl;
-					cout << "是否采取隔离措施 1是 2否" << endl;
+					cout << "是否采取隔离措施:" << endl;
+					cout << "          1 - 是\n          2 - 否  :   ";
 					int choose;
 					cin >> choose;
 					if (choose == 2) {
