@@ -6,7 +6,6 @@
 #include<fstream>
 #include<iomanip>
 using namespace std;
-//读取出圈信息 
 void RequireSell() {
 	ifstream read;
 	read.open("Eachsale.txt");
@@ -17,21 +16,21 @@ void RequireSell() {
 	char flag;
 	read >> flag;
 	if (flag == '#') {
-		cout << "无记录" << endl;
+		cout << "暂无出圈记录" << endl;
 		return;
 	}
-	int times, outpigs, bpig, lpig, wpig;
+	int times, outpigs, Bpig, SFpig, BFpig;
 	double sellprice, money;
 	while (read>>times) {
 		if (read.eof()) break;
-		read >> outpigs >> sellprice >> bpig >> lpig >> wpig>>money;
+		read >> outpigs >> sellprice >> Bpig >> SFpig >> BFpig>>money;
 		cout << "第" << times / 4 + 1 << "年";
 		cout << "第" << (times % 4 + 1) << "次出圈：\n";
 		cout << "     出圈猪数：" << outpigs << "     获得收益：￥" << sellprice << endl;
 		cout << "     购进猪崽情况：" << endl;
-		cout << "                  黑猪数:     " << setw(5)<<bpig << endl;
-		cout << "                  小花猪数：  " <<setw(5)<<lpig << endl;
-		cout << "                  大白花猪数：" << setw(5)<<wpig<< endl;
+		cout << "                  黑猪数:     " << setw(5)<<Bpig << endl;
+		cout << "                  小花猪数：  " <<setw(5)<<SFpig << endl;
+		cout << "                  大白花猪数：" << setw(5)<<BFpig<< endl;
 		cout<< "      余额：￥" << money << endl;
 		cout << "-----------------------------------------------------------\n";
 	}
@@ -70,39 +69,19 @@ void save_SoldInfo(int outpignum, double sellprice, int bpig, int lpig, int wpig
 	save.close();
 }
 //买新猪，放入养猪场 
-void buyPigs(int bpig, int lpig, int wpig, PigSty pigStys[]) {
-	//小黑还是放在小黑圈 里 
-	int average = allPigsNum / 100 + 1;
-	while (bpig--) {
-		for (int i = 0; i < 100; i++) {
-			if (pigStys[i].isAllBlack() == 1 && pigStys[i].getTot() <=average) {
-				pigStys[i].insert(1);
-				break;
-			}
-			if (pigStys[i].getHead() == NULL) {
-				pigStys[i].insert(1);
-				pigStys[i].setisBlackSty(1);
-				break;
-			}
-		}
+bool isAllpsFull(PigSty* stys) {
+	int bj = 0; int cnt = 0;
+	for (int i = 0; i < 100; i++) {
+		if (stys[i].isAllBlack() == 1) bj++;
 	}
-	//平均分配	
-	while (1) {
-		for (int i = 0; i < 100; i++) {
-			if (pigStys[i].isAllBlack() == 0) {
-				if (lpig > 0 && pigStys[i].getTot() <= average) {
-					pigStys[i].insert(2);
-					lpig--;
-				}
-				if (wpig > 0 && pigStys[i].getTot() <= average) {
-					pigStys[i].insert(3);
-					wpig--;
-				}
-			}
-		}
-		if (lpig == 0 && wpig == 0)break;
+	for (int i = 0; i < 100; i++) {
+		if (stys[i].isAllBlack() && stys[i].get_BlackNum()== 10)
+			cnt++;
 	}
+	if (cnt == bj) return 1;
+	else return 0;
 }
+
 
 void StartfromLast(PigSty Stys[]) {
 	ifstream getinfo;
@@ -119,17 +98,17 @@ void StartfromLast(PigSty Stys[]) {
 	pig* p;
 	read >> t;
 	for (int i = 0; i < 100; i++) {
-		read >> cntnum;  //读取每个猪圈数量  
+		read >> cntnum;  
 		for (int j = 0; j < cntnum; j++) {
 			p = new pig;
-			p->number = j;     //每头猪编号 
-			read >> p->species;   //读入品种 
-			if (p->species == '$') {     //如果读到$就退出 
+			p->number = j;     
+			read >> p->species;   
+			if (p->species == '$') {     
 				delete p;
 				break;
 			}
-			else read >> p->weight >> p->breedMon >> p->breedDay;  //读入 体重，月份，日期 
-			Stys[i].addOnePig(p);  //把猪添加到后面 
+			else read >> p->weight >> p->breedMon >> p->breedDay; 
+			Stys[i].addOnePig(p);  
 		}
 	}
 	read.close();
@@ -143,17 +122,17 @@ void StartNew(PigSty Stys[]) {
 	sell_Times_Count = 0;
 	ofstream f;
 	f.open("isFirstGame.txt");//文件 
-	f << 0; //向文件里面写个0 ，写的时候不需要这个文件一定存在，不存在就在目录下面自动创建一个 
-	f.close(); //关闭文件 
+	f << 0; 
+	f.close(); 
 	f.open("Eachsale.txt"); //打开 
-	f << '#'; //写个# 
-	f.close(); //关闭文件 
+	f << '#'; 
+	f.close(); 
 	pig* p;
 	int count = 1000;       //假设初始化有1000头猪 
 	while (count--) {
 		p = new pig;
-		p->species = rand() % 3 + 1;  //随机初始化品种 
-		p->weight = double(rand() % 31 + 20);  //随机初始化体重 
+		p->species = rand() % 3 + 1;  //随机初始化
+		p->weight = double(rand() % 31 + 20);  
 		p->breedMon = 0;
 		p->breedDay = 0;
 		p->isDead = 0;
@@ -164,7 +143,6 @@ void StartNew(PigSty Stys[]) {
 			Stys[i].setisBlackSty(1);  //标记这个为黑圈 
 			continue;
 		}
-		//如果不是 小黑，并且这个圈全是花花    且没有满 
 		else if (p->species != 1 && Stys[i].isAllBlack() == 0 && Stys[i].getTot() < 10) {//<10???
 			p->number = Stys[i].getTot();
 			Stys[i].addOnePig(p);   
@@ -176,8 +154,6 @@ void StartNew(PigSty Stys[]) {
 	for (int i = 0; i < 100; i++)
 		Stys[i].setState();
 }
-
-//把程序数输出到文件里面 
 void savefile(PigSty pigStys[]) {
 	ofstream savefile;
 	savefile.open("isFirstGame.txt");
@@ -191,18 +167,15 @@ void savefile(PigSty pigStys[]) {
 	}
 	savefile.close();
 }
-
-
 //获得100个猪圈的总数 
-int getAllPigs(PigSty pigStys[]) {
+int getAllPigs(PigSty* pigStys) {
 	int allPigs = 0;
 	for (int i = 0; i < 100; i++) {
 		allPigs += pigStys[i].getTot();
 	}
 	return allPigs;
 }
-
-void statistic(PigSty pigStys[])
+void statistic(PigSty* pigStys)
 {
 	int blackTot = 0; double Bget150 = 0; int Blt30 = 0; int Bm3_6 = 0; int Bm7_12 = 0;
 	int sflowerTot = 0; double SFget150 = 0;  int SFlt30 = 0; int SFm3_6 = 0; int SFm7_12 = 0;
@@ -348,10 +321,7 @@ void RequireAllPigs(PigSty*Stys) {
 		if (i == 99) cout << "======================查询结束===============================" << endl;
 	}
 }
-
-
 void OutPigs(PigSty* Stys) {
-
 	double sellprice = 0;
 	for (int i = 0; i < 100; i++) {
 		sellprice += Stys[i].getPrice();
@@ -363,36 +333,47 @@ void OutPigs(PigSty* Stys) {
 	cout << "-----------------------------------------------------" << endl;
 	TotMoney += sellprice;
 	int blackpig = 0, empSty = 0, FlowerPigCnt = 0;
+
 	for (int i = 0; i < 100; i++) {
-		if (Stys[i].getTot() == 0) { empSty++; continue; }
-		if (Stys[i].get_BlackNum())   blackpig += 10 - Stys[i].get_BlackNum();
-		else FlowerPigCnt += 10 - Stys[i].getTot();
+		if (Stys[i].getHead() == NULL) { empSty++; continue; }
+		else {
+			if (Stys[i].get_BlackNum())   blackpig += 10 - Stys[i].get_BlackNum();
+			else FlowerPigCnt += 10 - Stys[i].getTot();
+		}	
 	}
-	int bpig, lpig, wpig;
+	int rem = empSty * 10 + FlowerPigCnt + blackpig;
+	cout << "剩余总猪圈空位： " << rem << endl;
+	cout << "未满黑猪圈余位：" << blackpig << endl;
+	cout << "未满花猪圈余位" << FlowerPigCnt << endl;
+	cout << "空猪圈个数 " << empSty << endl;
+	int Bpig, SFpig, BFpig;
 	printBuyPrice();
 	cout << "请依次输入本次购入的黑猪，小花猪，大花白猪数：";
-	cin >> bpig >> lpig >> wpig;
+	cin >> Bpig >> SFpig >> BFpig;
 	//tmp填满未满的黑猪圈，在用了空猪圈后剩余的猪圈可装的花猪数量
-	int tmp = (empSty - (bpig - blackpig) / 10) * 10;
+	
 	while (1) {
-		if (bpig > blackpig + empSty * 10 || lpig > empSty * 10 + FlowerPigCnt || wpig > empSty * 10 + FlowerPigCnt || lpig + wpig > empSty * 10 + FlowerPigCnt)
-			cout << "猪数超过猪场容纳量，请重新输入：\n";
-		else if (TotMoney < (1500 * bpig + 1300 * lpig + 1000 * wpig))
+		int tmp = empSty - (Bpig - blackpig) / 10;
+		if ((Bpig - blackpig) % 10 != 0) tmp--;
+		cout << "留给花猪的空圈" << tmp << endl;
+		if ((Bpig > blackpig + empSty * 10) || (SFpig > empSty * 10 + FlowerPigCnt )|| (BFpig > empSty * 10 + FlowerPigCnt )|| (SFpig + BFpig > empSty * 10 + FlowerPigCnt)||((BFpig+SFpig+Bpig)>rem))
+			cout << "超过猪场容纳量，请重新输入：\n";
+		else if (TotMoney < (1500 * Bpig + 1300 * SFpig + 1000 * BFpig))
 			cout << "余额不足，请重新输入\n";
-		else if ((tmp < lpig + wpig) && bpig > blackpig)
-			cout << "购猪组合不合理，黑猪与其他猪不能混养，请重新输入：\n";
+		else if ((tmp*10+FlowerPigCnt < SFpig + BFpig) || Bpig > blackpig+10*empSty)
+			cout << "购买不合理，无法合理分配猪圈，请重新输入：\n";
 		else if (TotMoney >= 5000000) {
 			cout << "！！！！！！！！恭喜你通过养猪赚够五百万啦！！！！！！！" << endl;
 			exit(0);
 		}
 		else break;
-		cin >> bpig >> lpig >> wpig;
+		cin >> Bpig >> SFpig >> BFpig;
 	}
-	TotMoney -= (1500 * bpig + 1300 * lpig + 1000 * wpig);
-	allPigsNum += bpig + lpig + wpig;
-	buyPigs(bpig, lpig, wpig, Stys);
+	TotMoney -= (1500 * Bpig + 1300 * SFpig + 1000 * BFpig);
+	allPigsNum += Bpig + SFpig + BFpig;
+	buyPigs(Bpig, SFpig, BFpig, Stys);
 	cout << "购买成功，现在养猪场总猪数： " << allPigsNum << endl;
-	save_SoldInfo(outpignum, sellprice, bpig, lpig, wpig, TotMoney);
+	save_SoldInfo(outpignum, sellprice, Bpig, SFpig, BFpig, TotMoney);
 	sell_Times_Count++;
 	while (DayCount >= 30) {
 		DayCount -= 30;
@@ -402,7 +383,61 @@ void OutPigs(PigSty* Stys) {
 	cin.get();
 	cin.get();
 	Menu_initial();
+}
+void buyPigs(int Bpig, int SFpig, int BFpig, PigSty pigStys[]) {
+	/*int chushibjuan = 0;
+	for (int i = 0; i < 100; i++)
+		if (pigStys[i].isAllBlack() == 1)  chushibjuan++;
+	cout << "初始黑猪圈有 " << chushibjuan << endl;*/
+	while (Bpig--) {
+		for (int i = 0; i < 100; i++) {
+			if (pigStys[i].isAllBlack() == 1 && pigStys[i].getTot() < 10) {
+				pigStys[i].insert(1);
+				break;
+			}
+			if ((isAllpsFull(pigStys)) && pigStys[i].getHead() == NULL) {
+				pigStys[i].insert(1);
+				pigStys[i].setisBlackSty(1);
+				break;
+			}
+		}
+	}
+	int fl = 0; int allb = 0;
+	for (int i = 0; i < 100; i++)
+	{
+		if (pigStys[i].getHead() == 0) fl++;
+		else {
+			if (pigStys[i].isAllBlack() == 0)  fl++;
+			else allb += pigStys[i].get_BlackNum();
+		}
+	}
+	int bjuan = 0;
+	for (int i = 0; i < 100; i++)
+		if (pigStys[i].isAllBlack() == 1)  bjuan++;
+	//cout << "分配完的黑猪个数：" << allb << endl;
+	//cout << "花猪个数：" << allPigsNum - allb << endl;
+	//cout << "花猪的圈" << fl << " " << endl;
+	//cout << "黑猪的圈" << bjuan << " " << endl;
+	int average = (allPigsNum - allb) / fl+1 ;
+	if (average > 10) average = 10;
+//	cout << "花猪圈平均 " << average << endl;
+	while (1) {
+		for (int i = 0; i < 100; i++) {
+			if (pigStys[i].isAllBlack() == 0) {
+				if (SFpig > 0 && (pigStys[i].getTot() < average || pigStys[i].getHead() == NULL)) {
+					pigStys[i].insert(2);
+					SFpig--;
+					cout << "小花" << SFpig << endl;
+				}
+				if (BFpig > 0 && (pigStys[i].getTot() < average || pigStys[i].getHead() == NULL)) {
+					pigStys[i].insert(3);
+					BFpig--;
+					cout << "大花：" << BFpig << endl;
+				}
 
-
-
+			}
+		}
+		if (SFpig == 0 && BFpig == 0)	break;
+	}
+	//cout << "小花： " << SFpig << "大花： " << BFpig << endl;
 }

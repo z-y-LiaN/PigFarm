@@ -40,4 +40,5 @@ void RequireAllPigs(PigSty*Stys);
 void isolate(PigSty* Stys,int i,int j);
 
 void OutPigs(PigSty* Stys);
+bool isAllpsFull(PigSty* stys);
 

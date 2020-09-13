@@ -19,10 +19,8 @@ int main()
 	infile.open("isFirstGame.txt"); //保存的是0
 	int flag;   
 	infile >> flag; 
-	if (flag == 0)  
-		StartNew(Stys); 
-	else  
-		StartfromLast(Stys); 
+	if (flag == 0)		StartNew(Stys); 
+	else	StartfromLast(Stys); 
 	infile.close();
 	allPigsNum = getAllPigs(Stys);
 	int MenuChoice;
@@ -32,7 +30,7 @@ int main()
 		switch (MenuChoice) 
 		{
 		case 1: {//开始游戏
-			Menu_initial();//初始化 
+			Menu_initial();
 			int GameChoice;
 			cin >> GameChoice;  
 			do {
@@ -43,42 +41,35 @@ int main()
 					int RequireChoice;
 					cin >> RequireChoice;
 					do {
-						switch (RequireChoice) {
-				//查询单个猪圈情况		
-						case 1: {
-							RequireOneSty(Stys);
-							break;
+						switch (RequireChoice) {		
+							case 1: {
+								RequireOneSty(Stys);  //查询单个猪圈情况
+								break;
+							}
+							case 2: {
+								RequireOnePig(Stys);  //查询具体某只猪情况
+								break;
+							}
+							case 3: { 
+								statistic(Stys);      //查询当前猪场每种猪的情况
+								break;
+							}
+			 				case 4: { 
+								RequireSell();		  //查询近五年销售和购入记录
+								break;
+							}
+							case 5: {
+								RequireAllPigs(Stys); //查询猪场每个猪圈所有猪的信息
+								break;
+							}
+							case 6: {
+								break;               //返回上一级
+							}
+							default: {
+								cout << "输入错误，请重新输入："; 
+								break;
+							}
 						}
-				//查询具体某只猪情况
-						case 2: {
-							RequireOnePig(Stys);
-							break;
-						}
-			    //查询当前猪场每种猪的情况
-						case 3: { 
-							statistic(Stys);    
-							break;
-						}
-		        //查询近五年销售和购入记录
-			 			case 4: { 
-							RequireSell(); 
-							break;
-						}
-     		    //查询猪场每个猪圈所有猪的信息
-						case 5: {
-							RequireAllPigs(Stys);
-							break;
-						}
-				//返回
-						case 6: {
-							break;
-						}
-				//输入错误
-						default: {
-							cout << "输入错误，请重新输入：";
-							break;
-						}
-					}
 						if (RequireChoice == 6) break;
 						if(RequireChoice<6&&RequireChoice>0)
 						cout << "游戏继续，请选择操作：";
@@ -87,7 +78,7 @@ int main()
 					Menu_initial();
 					break;
 				}
-				case 2: {
+				case 2: {//出圈&购猪
 					if (MonthCount + DayCount / 30 < 3) {
 						cout << "上次出圈到现在饲养时间不足三月，请别着急出圈噢" << endl;
 						break;
@@ -116,7 +107,6 @@ int main()
 					{
 						cout << "已经三个月啦，请先出圈" << endl;
 						break;
-
 					}
 					for (int i = 0; i < 100; i++) {
 						Stys[i].next(1);
@@ -134,7 +124,6 @@ int main()
 					{
 						cout << "已经三个月啦，请先出圈" << endl;
 						break;
-
 					}
 					for (int i = 0; i < 100; i++) {
 						Stys[i].next(30);
@@ -143,7 +132,7 @@ int main()
 					Menu_initial();
 					break;
 				}
-				case 7: {
+				case 7: {//疫情模拟
 					for (int i = 0; i < 100; i++)
 						Stys[i].clearStys();
 					StartNew(Stys);
@@ -160,8 +149,7 @@ int main()
 					cout << "第 " << i << " 个猪圈的编号为 " << j << " 的猪染病" << endl;
 					cout << "是否采取隔离措施:" << endl;
 					cout << "          1 - 是\n          2 - 否  :   ";
-					int choose;
-					cin >> choose;
+					int choose;	cin >> choose;
 					if (choose == 2) {
 						int deadday = epd(Stys,i,j);
 						cout << deadday << "天后养猪场的猪全部死亡" << endl;
@@ -183,10 +171,8 @@ int main()
 			} while (1);
 			break;
 		}
-		case 2: { exit(0); }
-		default: {
-			cout << "输入错误，请重新输入：";
-		}
+		case 2:  exit(0); 
+		default: {	cout << "输入错误，请重新输入：";	}
 		}
 	    cin >> MenuChoice;
 	} while (1);

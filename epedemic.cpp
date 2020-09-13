@@ -3,19 +3,16 @@ int PigSty::getState() {
 	return state;
 }
 //把某只猪设置为死猪 
-void PigSty::setisDead(int num)
-{
+void PigSty::setisDead(int num){
 	pig* p = head;
 	for (int i = 0; i < num && p; i++)
 		p = p->next;
 	p->isDead = 1;
 }
 //50%的概率患病
-void PigSty::Pro50()
-{
+void PigSty::Pro50(){
 	pig* p = head;
-	while (p)
-	{
+	while (p){
 		int prob = rand() % 99 + 1;
 		if (prob <= 50)
 			p->isDead = 1;
@@ -23,19 +20,16 @@ void PigSty::Pro50()
 	}
 }
 //15%的概率患病 
-void PigSty::Pro15()
-{
+void PigSty::Pro15(){
 	pig* p = head;
-	while (p)
-	{
+	while (p){
 		int prob = rand() % 99 + 1;
 		if (prob <= 15)
 			p->isDead = 1;
 		p = p->next;
 	}
 }
-void PigSty::setState()
-{
+void PigSty::setState(){
 	pig* p = head;
 	int i;
 	int flag = 0;
@@ -88,8 +82,7 @@ void isolate(PigSty* Stys,int i,int j) {
 	Stys[i].deleteOne(j);
 }
 
-int epd(PigSty* Stys,int i,int j)
-{
+int epd(PigSty* Stys,int i,int j){
 	Stys[i].setisDead(j);
 	Stys[i].setState();
 	int allDeadDay = 1;
