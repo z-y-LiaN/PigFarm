@@ -152,11 +152,14 @@ int main()
 					int choose;	cin >> choose;
 					if (choose == 2) {
 						int deadday = epd(Stys,i,j);
-						cout << deadday << "天后养猪场的猪全部死亡" << endl;
+						cout << deadday << " 天后养猪场的猪全部死亡" << endl;
 					}
 					else if (choose == 1) {
 						isolate(Stys,i,j);
-						cout << "该病猪已被隔离完成" << endl;
+						cout << "   该病猪已被隔离完成" << endl;
+						if (Stys[i].getState() == 0) cout << "   隔离即时，该猪圈的猪全部健康" << endl;
+						cout << "显示第" << i << "个猪圈情况：" << endl;
+						Stys[i].print();
 					}
 					break;
 				}
