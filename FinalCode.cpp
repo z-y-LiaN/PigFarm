@@ -23,46 +23,52 @@ int main()
 	else	StartfromLast(Stys); 
 	infile.close();
 	allPigsNum = getAllPigs(Stys);
-	int MenuChoice;
+	char MenuChoice;
 	cout << "请输入你想要继续的操作：" << endl;
+	//while (cin >> MenuChoice) {
+	//	if (MenuChoice == 1 || MenuChoice == 2)
+	//		break;
+	//}
 	cin >> MenuChoice;
+	cin.get();
 	do {
 		switch (MenuChoice) 
 		{
-		case 1: {//开始游戏
+		case '1': {//开始游戏
 			Menu_initial();
-			int GameChoice;
-			cin >> GameChoice;  
+			char GameChoice;
+			cin >> GameChoice; 
+			cin.get();
 			do {
 				switch (GameChoice) {
 				//查询
-				case 1: {  
+				case '1': {  
 					check();
-					int RequireChoice;
+					char RequireChoice;
 					cin >> RequireChoice;
 					do {
 						switch (RequireChoice) {		
-							case 1: {
+							case '1': {
 								RequireOneSty(Stys);  //查询单个猪圈情况
 								break;
 							}
-							case 2: {
+							case '2': {
 								RequireOnePig(Stys);  //查询具体某只猪情况
 								break;
 							}
-							case 3: { 
+							case '3': { 
 								statistic(Stys);      //查询当前猪场每种猪的情况
 								break;
 							}
-			 				case 4: { 
+			 				case '4': { 
 								RequireSell();		  //查询近五年销售和购入记录
 								break;
 							}
-							case 5: {
+							case '5': {
 								RequireAllPigs(Stys); //查询猪场每个猪圈所有猪的信息
 								break;
 							}
-							case 6: {
+							case '6': {
 								break;               //返回上一级
 							}
 							default: {
@@ -70,30 +76,32 @@ int main()
 								break;
 							}
 						}
-						if (RequireChoice == 6) break;
-						if(RequireChoice<6&&RequireChoice>0)
+						if (RequireChoice == '6') break;
+						if(RequireChoice<'6'&&RequireChoice>'0')
 						cout << "游戏继续，请选择操作：";
 						cin >> RequireChoice;
 					} while (1);
+					cin.get();
 					Menu_initial();
 					break;
 				}
-				case 2: {//出圈&购猪
+				case '2': {//出圈&购猪
 					if (MonthCount + DayCount / 30 < 3) {
 						cout << "上次出圈到现在饲养时间不足三月，请别着急出圈噢" << endl;
 						break;
 					}
 					OutPigs(Stys);
+					
 					break;
 				}
-				case 3: {//重新游戏
+				case '3': {//重新游戏
 					for (int i = 0; i < 100; i++) 
 						Stys[i].clearStys();
 					StartNew(Stys);
 					Menu_initial();
 					break;
 				}
-				case 4: { //保存游戏
+				case '4': { //保存游戏
 					savefile(Stys);
 					saveInfo();
 					int ex;
@@ -102,7 +110,7 @@ int main()
 						exit(0);
 					break;
 				}
-				case 5: {//下一天
+				case '5': {//下一天
 					if (MonthCount == 3)
 					{
 						cout << "已经三个月啦，请先出圈" << endl;
@@ -119,7 +127,7 @@ int main()
 					Menu_initial();
 					break;
 				}
-				case 6: { //下个月
+				case '6': { //下个月
 					if (MonthCount == 3)
 					{
 						cout << "已经三个月啦，请先出圈" << endl;
@@ -132,7 +140,7 @@ int main()
 					Menu_initial();
 					break;
 				}
-				case 7: {//疫情模拟
+				case '7': {//疫情模拟
 					for (int i = 0; i < 100; i++)
 						Stys[i].clearStys();
 					StartNew(Stys);
@@ -172,11 +180,12 @@ int main()
 				if(GameChoice>0&&GameChoice<8)
 				 cout << "游戏继续，请选择操作：";
 				cin >> GameChoice;
+				cin.get();
 			} while (1);
 			break;
 		}
-		case 2:  exit(0); 
-		default: {	cout << "输入错误，请重新输入：";	}
+		case '2':  exit(0); 
+		default: {	cout << "输入错误，请重新输入："; }
 		}
 	    cin >> MenuChoice;
 	} while (1);

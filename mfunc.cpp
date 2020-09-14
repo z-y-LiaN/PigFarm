@@ -246,7 +246,7 @@ void statistic(PigSty* pigStys)
 	cout << "                   " << "≥半年 :  " << BFm7_12 << " 头" << endl;
 	cout << "---------------------------------------------------------" << endl;
 }
-void RequireOneSty(PigSty Stys[])
+void RequireOneSty(PigSty*Stys)
 {
 	int styNum;
 	cout << "请输入想要查询的猪圈编号：";
@@ -372,6 +372,7 @@ void OutPigs(PigSty* Stys) {
 	allPigsNum += Bpig + SFpig + BFpig;
 	buyPigs(Bpig, SFpig, BFpig, Stys);
 	cout << "购买成功，现在养猪场总猪数： " << allPigsNum << endl;
+	cout << "请按任意键继续" << endl;
 	save_SoldInfo(outpignum, sellprice, Bpig, SFpig, BFpig, TotMoney);
 	sell_Times_Count++;
 	while (DayCount >= 30) {
