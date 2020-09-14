@@ -39,8 +39,8 @@ public:
 	bool havePig(int number);
 	int getState(); 
 	void setisDead(int num);
-	void Pro50();
-	void Pro15();
+	void getEpd(int pro);
+	//void Pro15();
 	void setState();
 	void deleteOne(int j);
 };

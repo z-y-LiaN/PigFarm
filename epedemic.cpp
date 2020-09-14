@@ -9,23 +9,15 @@ void PigSty::setisDead(int num){
 		p = p->next;
 	p->isDead = 1;
 }
-//50%的概率患病
-void PigSty::Pro50(){
+//按概率染病
+void PigSty::getEpd(int pro){
 	pig* p = head;
 	while (p){
-		int prob = rand() % 100 + 1;
-		if (prob <= 50)
-			p->isDead = 1;
-		p = p->next;
-	}
-}
-//15%的概率患病 
-void PigSty::Pro15(){
-	pig* p = head;
-	while (p){
-		int prob = rand() % 100 + 1;
-		if (prob <= 15)
-			p->isDead = 1;
+		if (p->isDead == 0) {
+			int prob = rand() % 100 + 1;
+			if (prob <= pro)
+				p->isDead = 1;
+		}
 		p = p->next;
 	}
 }
@@ -77,11 +69,9 @@ int NotallDead(PigSty* Stys) {
 	}
 	return 0;
 }
-
 void isolate(PigSty* Stys,int i,int j) {
 	Stys[i].deleteOne(j);
 }
-
 void epd(PigSty* Stys,int i,int j){
 	Stys[i].setisDead(j);
 	Stys[i].setState();
@@ -93,17 +83,17 @@ void epd(PigSty* Stys,int i,int j){
 			if (Stys[k].getState() == 0)	continue;
 			else {
 				if (k > 0 && k < 99) {
-					Stys[k - 1].Pro15();
-					Stys[k + 1].Pro15();
+					Stys[k - 1].getEpd(15);
+					Stys[k + 1].getEpd(15);
 				}
 				else if (k == 0) {
-					Stys[k + 1].Pro15();
+					Stys[k + 1].getEpd(15);
 				}
 				else if (k == 99) {
-					Stys[k - 1].Pro15();
+					Stys[k - 1].getEpd(15);
 				}
 				if (Stys[k].getState() == 2)
-					Stys[k].Pro50();
+					Stys[k].getEpd(50);
 			}
 		}
 		for (int m = 0; m < 100; m++) {
