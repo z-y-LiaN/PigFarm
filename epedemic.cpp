@@ -13,7 +13,7 @@ void PigSty::setisDead(int num){
 void PigSty::Pro50(){
 	pig* p = head;
 	while (p){
-		int prob = rand() % 99 + 1;
+		int prob = rand() % 100 + 1;
 		if (prob <= 50)
 			p->isDead = 1;
 		p = p->next;
@@ -23,7 +23,7 @@ void PigSty::Pro50(){
 void PigSty::Pro15(){
 	pig* p = head;
 	while (p){
-		int prob = rand() % 99 + 1;
+		int prob = rand() % 100 + 1;
 		if (prob <= 15)
 			p->isDead = 1;
 		p = p->next;
@@ -123,12 +123,12 @@ void epd(PigSty* Stys,int i,int j){
 				}
 			}
 		}
-		cout << "第" << allDeadDay << "天" << "新增病例:" << tot - preday << "例" << endl;
-		cout << "从疫情发生开始到第" << allDeadDay << "天 ，总共感染" << tot << "只猪" << endl;
+		cout << "第 " << allDeadDay << " 天" << "新增感染:" << tot - preday << "只" << endl;
+		cout << "截至今天，" << " 总共感染" << tot << "只" << endl;
 		cout << endl;
 		preday= tot;
 		pd = NotallDead(Stys);
 	}
-	cout << "第" << allDeadDay << " 天时，猪圈的猪全部被感染死亡" << endl;
+	cout << "第" << allDeadDay << " 天，猪圈的猪全部被感染死亡" << endl;
 	// allDeadDay;
 }
