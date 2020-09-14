@@ -82,11 +82,12 @@ void isolate(PigSty* Stys,int i,int j) {
 	Stys[i].deleteOne(j);
 }
 
-int epd(PigSty* Stys,int i,int j){
+void epd(PigSty* Stys,int i,int j){
 	Stys[i].setisDead(j);
 	Stys[i].setState();
 	int allDeadDay = 1;
 	int pd = NotallDead(Stys);
+	int preday = 1;
 	while (pd != 0) {
 		for (int k = 0; k < 100; k++) {
 			if (Stys[k].getState() == 0)	continue;
@@ -110,7 +111,24 @@ int epd(PigSty* Stys,int i,int j){
 				Stys[m].setState();
 		}
 		allDeadDay++;
+		//统计到此时一共感染了多少只猪
+		int tot = 0;
+		for (int i = 0; i < 100; i++) {
+			if (Stys[i].getHead() == NULL || Stys[i].getState() == 0) continue;
+			else {
+				pig* p = Stys[i].getHead();
+				while (p) {
+					if (p->isDead == 1) tot++;
+					p = p->next;
+				}
+			}
+		}
+		cout << "第" << allDeadDay << "天" << "新增病例:" << tot - preday << "例" << endl;
+		cout << "从疫情发生开始到第" << allDeadDay << "天 ，总共感染" << tot << "只猪" << endl;
+		cout << endl;
+		preday= tot;
 		pd = NotallDead(Stys);
 	}
-	return allDeadDay;
+	cout << "第" << allDeadDay << " 天时，猪圈的猪全部被感染死亡" << endl;
+	// allDeadDay;
 }

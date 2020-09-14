@@ -19,9 +19,10 @@ void statistic(PigSty*);
 void RequireOneSty(PigSty*);
 void RequireOnePig(PigSty*);
 int NotallDead(PigSty*);
-int epd(PigSty* Stys,int i,int j);
+void epd(PigSty* Stys,int i,int j);
 void RequireAllPigs(PigSty*);
 void isolate(PigSty* Stys,int i,int j);
 void OutPigs(PigSty*);
 bool is_all_BstyFull(PigSty*);
+int getAllPigs(PigSty* pigStys);
 

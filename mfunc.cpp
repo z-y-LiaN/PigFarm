@@ -339,12 +339,13 @@ void OutPigs(PigSty* Stys) {
 		}	
 	}
 	int rem = empSty * 10 + FlowerPigCnt + blackpig;
-	cout << "-----------------------出圈后，猪圈空位信息------------------------\n";
-	cout << "猪圈总空位：     "<<setw(5) << rem << endl;
-	cout << "未满黑猪圈余位： "<<setw(5)<< blackpig << endl;
-	cout << "未满花猪圈余位:  " << setw(5) << FlowerPigCnt << endl;
-	cout << "空猪圈总个数：   " <<setw(5)<< empSty << endl;
-	cout << "------------------------------------------------------------------\n";
+	cout << "出圈后，猪圈空位信息:\n";
+	cout << "              ---------------------------\n";
+	cout << "              | 猪圈总空位：     "<<setw(5) << rem <<"  |"<< endl;
+	cout << "              | 未满黑猪圈余位： "<<setw(5)<< blackpig << "  |" << endl;
+	cout << "              | 未满花猪圈余位:  " << setw(5) << FlowerPigCnt << "  |" << endl;
+	cout << "              | 空猪圈总个数：   " <<setw(5)<< empSty << "  |" << endl;
+	cout << "              ---------------------------\n";
 	int Bpig, SFpig, BFpig;
 	printBuyPrice();
 	cout << "请依次输入本次购入的黑猪，小花猪，大花白猪数：";
@@ -353,7 +354,7 @@ void OutPigs(PigSty* Stys) {
 	while (1) {
 		int tmp = empSty - (Bpig - blackpig) / 10;
 		if ((Bpig - blackpig) % 10 != 0) tmp--;
-		cout << "留给花猪的空圈" << tmp << endl;
+		//cout << "留给花猪的空圈" << tmp << endl;
 		if ((Bpig > blackpig + empSty * 10) || (SFpig > empSty * 10 + FlowerPigCnt )|| (BFpig > empSty * 10 + FlowerPigCnt )|| (SFpig + BFpig > empSty * 10 + FlowerPigCnt)||((BFpig+SFpig+Bpig)>rem))
 			cout << "超过猪场容纳量，请重新输入：\n";
 		else if (TotMoney < (1500 * Bpig + 1300 * SFpig + 1000 * BFpig))
@@ -422,12 +423,12 @@ void buyPigs(int Bpig, int SFpig, int BFpig, PigSty*pigStys) {
 				if (SFpig > 0 && (pigStys[i].getTot() < average || pigStys[i].getHead() == NULL)) {
 					pigStys[i].insert(2);
 					SFpig--;
-					cout << "小花" << SFpig << endl;
+				//	cout << "小花" << SFpig << endl;
 				}
 				if (BFpig > 0 && (pigStys[i].getTot() < average || pigStys[i].getHead() == NULL)) {
 					pigStys[i].insert(3);
 					BFpig--;
-					cout << "大花：" << BFpig << endl;
+				//	cout << "大花：" << BFpig << endl;
 				}
 
 			}

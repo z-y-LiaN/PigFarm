@@ -151,8 +151,9 @@ int main()
 					cout << "          1 - 是\n          2 - 否  :   ";
 					int choose;	cin >> choose;
 					if (choose == 2) {
-						int deadday = epd(Stys,i,j);
-						cout << deadday << " 天后养猪场的猪全部死亡" << endl;
+						//int deadday = epd(Stys,i,j);
+						//cout << deadday << " 天后养猪场的猪全部死亡" << endl;
+						epd(Stys, i, j);
 					}
 					else if (choose == 1) {
 						isolate(Stys,i,j);
