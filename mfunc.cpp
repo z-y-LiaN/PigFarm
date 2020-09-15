@@ -5,6 +5,7 @@
 #include<iostream>
 #include<fstream>
 #include<iomanip>
+//#include<string.h>
 using namespace std;
 void RequireSell() {
 	ifstream read;
@@ -250,14 +251,14 @@ void RequireOneSty(PigSty*Stys)
 {
 	int styNum;
 	cout << "请输入想要查询的猪圈编号：";
-	cin >> styNum;
-	while (1)
-	{
-		if (styNum >= 0 && styNum < 100) break;
-		else
-		{
-			cout << "输入有误，请重新输入： ";
-			cin >> styNum;
+	while (1) {
+		int i = rightNum();
+		if (i < 1 || i>100) {
+			cout << "输入错误，请重新输入猪圈编号" << endl;
+			continue;
+		}
+		else {
+			styNum = i; break;
 		}
 	}
 	cout << "------------------------------------------------------------------" << endl;
@@ -265,36 +266,37 @@ void RequireOneSty(PigSty*Stys)
 	cout << ' ' << left << setw(20) << Stys[styNum].getTot() << left << setw(20) << Stys[styNum].get_BlackNum() << left << setw(20) << Stys[styNum].get_SflowerNum() << left << setw(20) << Stys[styNum].get_BflowerNum() << "\n\n";
 	cout << "------------------------------------------------------------------" << endl;
 }
-void RequireOnePig(PigSty Stys[])
+void RequireOnePig(PigSty*Stys)
 {
 	int styNum, pigNum;
 	cout << "请输入猪圈号：";
-	cin >> styNum;
 	while (1) {
-		if (styNum >= 0 && styNum < 100)
-		{
+		int i = rightNum();
+		if (i < 1 || i>100) {
+			cout << "输入错误，请重新输入正确猪圈编号" << endl;
+			continue;
+		}
+		else {
+			styNum = i; 
 			if (Stys[styNum].getTot() != 0) break;
-			else
-			{
-				cout << "该猪圈为空猪圈，请重新输入：";
-				cin >> styNum;
+			else {
+				cout << "抱歉，该猪圈为空猪圈，请重新输入："; continue;
 			}
 		}
-		else { cout << "输入错误，请重新输入："; cin >> styNum; }
 	}
 	cout << "此猪圈共有" << Stys[styNum].getTot() << "头猪 , 请输入查询编号 ： ";
-	cin >> pigNum;
 	while (1) {
-
-		if (Stys[styNum].havePig(pigNum)) 
-			break;
-		else
-		{
-			if (pigNum < 0 || pigNum>9)
-				cout << "输入错误，请重新输入：";
-			else
-				cout << "不存在编号为"<<pigNum<<"的猪，请重新输入" << endl;
-			cin >> pigNum;
+		int i = rightNum();
+		if (i < 1 || i>10) {
+			cout << "输入错误，请重新输入正确猪编号" << endl;
+			continue;
+		}
+		else {
+			pigNum = i;
+			if (Stys[styNum].getHead() != NULL) break;
+			else {
+				cout << "抱歉，该猪圈为空猪圈，请重新输入："; continue;
+			}
 		}
 	}
 	cout <<"查询结果："<< endl;
@@ -348,25 +350,60 @@ void OutPigs(PigSty* Stys) {
 	cout << "              ---------------------------\n";
 	int Bpig, SFpig, BFpig;
 	printBuyPrice();
-	cout << "请依次输入本次购入的黑猪，小花猪，大花白猪数：";
-	cin >> Bpig >> SFpig >> BFpig;
-	//tmp填满未满的黑猪圈，在用了空猪圈后剩余的猪圈可装的花猪数量
+	cout << "请按品种输入本次购入的猪崽数量\n";
+	cout << "黑猪数量：";  cin.get();
 	while (1) {
+		while (1) {
+			int i = rightNum();
+			if (i < 1 || i>1000) {
+				cout << "输入错误，请重新输入" << endl;
+				continue;
+			}
+			else {
+				Bpig = i; break;
+			}
+		}
+		cout << "\n小花猪数量：";
+		while (1) {
+			int i = rightNum();
+			if (i < 1 || i>1000) {
+				cout << "输入错误，请重新输入" << endl;
+				continue;
+			}
+			else {
+				SFpig = i; break;
+			}
+		}
+		cout << "\n大花白猪数量：";
+		while (1) {
+			int i = rightNum();
+			if (i < 1 || i>1000) {
+				cout << "输入错误，请重新输入" << endl;
+				continue;
+			}
+			else {
+				BFpig = i; break;
+			}
+		}
 		int tmp = empSty - (Bpig - blackpig) / 10;
-		if ((Bpig - blackpig) % 10 != 0) tmp--;
-		//cout << "留给花猪的空圈" << tmp << endl;
-		if ((Bpig > blackpig + empSty * 10) || (SFpig > empSty * 10 + FlowerPigCnt )|| (BFpig > empSty * 10 + FlowerPigCnt )|| (SFpig + BFpig > empSty * 10 + FlowerPigCnt)||((BFpig+SFpig+Bpig)>rem))
-			cout << "超过猪场容纳量，请重新输入：\n";
-		else if (TotMoney < (1500 * Bpig + 1300 * SFpig + 1000 * BFpig))
-			cout << "余额不足，请重新输入\n";
-		else if ((tmp*10+FlowerPigCnt < SFpig + BFpig) || Bpig > blackpig+10*empSty)
+		if ((Bpig - blackpig) % 10 != 0)    tmp--;
+		if ((Bpig > blackpig + empSty * 10) || (SFpig > empSty * 10 + FlowerPigCnt) || (BFpig > empSty * 10 + FlowerPigCnt) || (SFpig + BFpig > empSty * 10 + FlowerPigCnt) || ((BFpig + SFpig + Bpig) > rem))
+		{
+			cout << "超过猪场或指定类型猪圈的容纳量，请重新输入：\n"; continue;
+		}
+		else if (TotMoney < (1500 * Bpig + 1300 * SFpig + 1000 * BFpig)) {
+			cout << "余额不足，请重新输入\n"; continue;
+		}
+
+		else if ((tmp * 10 + FlowerPigCnt < SFpig + BFpig) || Bpig > blackpig + 10 * empSty) {
 			cout << "该组合无法合理分配猪圈，请重新输入：\n";
+			continue;
+		}
 		else if (TotMoney >= 5000000) {
 			cout << "！！！！！！！！恭喜你通过养猪赚够五百万啦！！！！！！！" << endl;
 			exit(0);
 		}
 		else break;
-		cin >> Bpig >> SFpig >> BFpig;
 	}
 	TotMoney -= (1500 * Bpig + 1300 * SFpig + 1000 * BFpig);
 	allPigsNum += Bpig + SFpig + BFpig;
@@ -436,4 +473,21 @@ void buyPigs(int Bpig, int SFpig, int BFpig, PigSty*pigStys) {
 		}
 		if (SFpig == 0 && BFpig == 0)	break;
 	}
+}
+
+int rightNum(){
+	string str;
+	/*getline(cin, str);*/
+	cin >> str;
+	for (int i = 0; i < str.size(); i++) {
+		if (str[i] < '0' || str[i]>'9') return -1;
+	}
+	int out = 0;
+	for (int i = 0; i < str.size(); i++) {
+		int tmp = str[i] - '0';
+		out = out * 10 + tmp;
+	}
+	if (out < 0) return -1;
+	else 
+	   return out;
 }

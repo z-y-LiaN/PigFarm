@@ -1,6 +1,6 @@
 #pragma once
 #include"pigsty.h"
-#include<string.h>
+#include<string>
 #include<iostream>
 using namespace std;
 extern double TotMoney;
@@ -27,16 +27,4 @@ void OutPigs(PigSty*);
 bool is_all_BstyFull(PigSty*);
 int getAllPigs(PigSty* pigStys);
 ////////////////////////////////////////
-int rightNum(string str) {
-	//获取长度
-	for (int i = 0; i < str.size(); i++) {
-		if (str[i] < '0' || str[i]>'9') return -1;
-	}
-	int out = 0;
-	for (int i = 0; i < str.size(); i++) {
-		int tmp =str[i] - '0';
-		out = out * 10 + tmp;
-	}
-	return out;
-}
-
+int rightNum();
