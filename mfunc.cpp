@@ -253,7 +253,7 @@ void RequireOneSty(PigSty*Stys)
 	cout << "ÇëÊäÈëÏëÒª²éÑ¯µÄÖíÈ¦±àºÅ£º";
 	while (1) {
 		int i = rightNum();
-		if (i < 1 || i>100) {
+		if (i < 0 || i>99) {
 			cout << "ÊäÈë´íÎó£¬ÇëÖØÐÂÊäÈëÖíÈ¦±àºÅ" << endl;
 			continue;
 		}
@@ -272,7 +272,7 @@ void RequireOnePig(PigSty*Stys)
 	cout << "ÇëÊäÈëÖíÈ¦ºÅ£º";
 	while (1) {
 		int i = rightNum();
-		if (i < 1 || i>100) {
+		if (i < 0 || i>99) {
 			cout << "ÊäÈë´íÎó£¬ÇëÖØÐÂÊäÈëÕýÈ·ÖíÈ¦±àºÅ" << endl;
 			continue;
 		}
@@ -287,7 +287,7 @@ void RequireOnePig(PigSty*Stys)
 	cout << "´ËÖíÈ¦¹²ÓÐ" << Stys[styNum].getTot() << "Í·Öí , ÇëÊäÈë²éÑ¯±àºÅ £º ";
 	while (1) {
 		int i = rightNum();
-		if (i < 1 || i>10) {
+		if (i < 0|| i>9) {
 			cout << "ÊäÈë´íÎó£¬ÇëÖØÐÂÊäÈëÕýÈ·Öí±àºÅ" << endl;
 			continue;
 		}

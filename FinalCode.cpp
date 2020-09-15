@@ -124,23 +124,32 @@ int main()
 					
 					break;
 				}
-				case 3: {//重新游戏
+				case 5: {//重新游戏
 					for (int i = 0; i < 100; i++) 
 						Stys[i].clearStys();
 					StartNew(Stys);
 					Menu_initial();
 					break;
 				}
-				case 4: { //保存游戏
+				case 6: { //保存游戏
 					savefile(Stys);
 					saveInfo();
 					int ex;
-					cin >> ex;
+					while (1) {
+						int i = rightNum();
+						if (i<0||i>1) {
+							cout << "输入错误，请重新输入" << endl;
+							continue;
+						}
+						else {
+							ex= i; break;
+						}
+					}
 					if (ex == 0) 	
 						exit(0);
 					break;
 				}
-				case 5: {//下一天
+				case 3: {//下一天
 					if (MonthCount == 3)
 					{
 						cout << "已经三个月啦，请先出圈" << endl;
@@ -157,7 +166,7 @@ int main()
 					Menu_initial();
 					break;
 				}
-				case 6: { //下个月
+				case 4: { //下个月
 					if (MonthCount == 3)
 					{
 						cout << "已经三个月啦，请先出圈" << endl;
