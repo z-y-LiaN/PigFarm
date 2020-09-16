@@ -120,5 +120,4 @@ void epd(PigSty* Stys,int i,int j){
 		pd = NotallDead(Stys);
 	}
 	cout << "第" << allDeadDay << " 天，猪圈的猪全部被感染死亡" << endl;
-	// allDeadDay;
 }

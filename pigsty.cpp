@@ -62,7 +62,7 @@ int PigSty::getSpecies(int i) {
 
 
 	for (int j = 0; j < i && p; j++) {
-		if (p->number == i) break;////改动1,下面也是
+		if (p->number == i) break;
 		p = p->next;
 	}
 	return p->species;

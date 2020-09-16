@@ -26,5 +26,4 @@ void isolate(PigSty* Stys,int i,int j);
 void OutPigs(PigSty*);
 bool is_all_BstyFull(PigSty*);
 int getAllPigs(PigSty* pigStys);
-////////////////////////////////////////
 int rightNum();

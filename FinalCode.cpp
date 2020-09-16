@@ -8,15 +8,15 @@ using namespace std;
 double TotMoney;
 int MonthCount;
 int DayCount;
-int sell_Times_Count ;
+int sell_Times_Count ;//出圈次数
 int allPigsNum;
 int main()
 {
 	srand((unsigned)time(NULL));
-	PigSty Stys[100]; //创建一个类数组，每个数组元素都是一个猪圈 
+	PigSty Stys[100]; 
 	Prompt();
-	ifstream infile;   //读文件 
-	infile.open("isFirstGame.txt"); //保存的是0
+	ifstream infile;  
+	infile.open("isFirstGame.txt"); 
 	int flag;   
 	infile >> flag; 
 	if (flag == 0)		StartNew(Stys); 
@@ -92,13 +92,8 @@ int main()
 							case 6: {
 								break;               //返回上一级
 							}
-							/*default: {
-								cout << "输入错误，请重新输入："; 
-								break;
-							}*/
 						}
 						if (RequireChoice == 6) break;
-						//if(RequireChoice<6&&RequireChoice>1)
 						cout << "游戏继续，请选择操作：";
 						while (1) {
 							int i = rightNum();
@@ -121,7 +116,6 @@ int main()
 						break;
 					}
 					OutPigs(Stys);
-					
 					break;
 				}
 				case 5: {//重新游戏
@@ -183,7 +177,7 @@ int main()
 					for (int i = 0; i < 100; i++)
 						Stys[i].clearStys();
 					StartNew(Stys);
-					int i, j;  //第i个圈，第j值猪 
+					int i, j;  //第i个圈，编号为j的猪 
 					while (1) {
 						i = rand() % 100;
 						j = rand() % 10;

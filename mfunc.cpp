@@ -121,10 +121,10 @@ void StartNew(PigSty* Stys) {
 	DayCount = 0;
 	sell_Times_Count = 0;
 	ofstream f;
-	f.open("isFirstGame.txt");//文件 
+	f.open("isFirstGame.txt");
 	f << 0; 
 	f.close(); 
-	f.open("Eachsale.txt"); //打开 
+	f.open("Eachsale.txt"); 
 	f << '#'; 
 	f.close(); 
 	pig* p;
@@ -199,7 +199,6 @@ void statistic(PigSty* pigStys)
 				if (p->breedDay < 30)   SFlt30++;    //饲养时间小于1个月 
 				if (p->breedMon >= 3 && p->breedMon < 7) SFm3_6++;  //饲养时间3-6个月 
 				if (p->breedMon >= 7) SFm7_12++;	  //饲养时间大于半年 
-
 			}
 			else if (p->species == 3)
 			{
@@ -208,7 +207,6 @@ void statistic(PigSty* pigStys)
 				if (p->breedDay < 30)   BFlt30++;    //饲养时间小于1个月 
 				if (p->breedMon >= 3 && p->breedMon < 7) BFm3_6++;  //饲养时间3-6个月 
 				if (p->breedMon >= 7) BFm7_12++;	  //饲养时间大于半年 	
-
 			}
 			p = p->next;
 		}
@@ -337,7 +335,7 @@ void OutPigs(PigSty* Stys) {
 	cout << "              ---------------------------\n";
 	TotMoney += sellprice;
 	int blackpig = 0, empSty = 0, FlowerPigCnt = 0;
-
+	
 	for (int i = 0; i < 100; i++) {
 		if (Stys[i].getHead() == NULL) { empSty++; continue; }
 		else {
@@ -427,6 +425,7 @@ void OutPigs(PigSty* Stys) {
 	Menu_initial();
 }
 void buyPigs(int Bpig, int SFpig, int BFpig, PigSty*pigStys) {
+	//先分配黑猪
 	while (Bpig--) {
 		for (int i = 0; i < 100; i++) {
 			if (pigStys[i].isAllBlack() == 1 && pigStys[i].getTot() < 10) {
@@ -449,29 +448,22 @@ void buyPigs(int Bpig, int SFpig, int BFpig, PigSty*pigStys) {
 			else allb += pigStys[i].get_BlackNum();
 		}
 	}
-	int bjuan = 0;
+	int bsty = 0;
 	for (int i = 0; i < 100; i++)
-		if (pigStys[i].isAllBlack() == 1)  bjuan++;
-	/*cout << "分配完的黑猪总数：" << allb << endl;
-	cout << "除黑猪以外的个数：" << allPigsNum - allb << endl;
-	cout << "花猪最多可用圈：" << fl << " " << endl;
-	cout << "黑猪现在占有的圈" << bjuan << " " << endl;*/
+		if (pigStys[i].isAllBlack() == 1)  bsty++;
 	int average = (allPigsNum - allb) / fl+1 ;
-	//cout << "花猪圈不超过10之前平均 " << average << endl;
 	if (average > 10) average = 10;
-	
+	//再分配花猪，花猪尽量平均分配到猪圈里面
 	while (1) {
 		for (int i = 0; i < 100; i++) {
 			if (pigStys[i].isAllBlack() == 0) {
 				if (SFpig > 0 && (pigStys[i].getTot() < average || pigStys[i].getHead() == NULL)) {
 					pigStys[i].insert(2);
 					SFpig--;
-				//	cout << "小花" << SFpig << endl;
 				}
 				if (BFpig > 0 && (pigStys[i].getTot() < average || pigStys[i].getHead() == NULL)) {
 					pigStys[i].insert(3);
 					BFpig--;
-				//	cout << "大花：" << BFpig << endl;
 				}
 
 			}
@@ -479,7 +471,6 @@ void buyPigs(int Bpig, int SFpig, int BFpig, PigSty*pigStys) {
 		if (SFpig == 0 && BFpig == 0)	break;
 	}
 }
-
 int rightNum(){
 	string str;
 	/*getline(cin, str);*/

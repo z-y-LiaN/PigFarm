@@ -40,7 +40,6 @@ public:
 	int getState(); 
 	void setisDead(int num);
 	void getEpd(int pro);
-	//void Pro15();
 	void setState();
 	void deleteOne(int j);
 };
