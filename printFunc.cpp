@@ -7,7 +7,7 @@ void Prompt() {
 	cout << '\n';
 	cout << "                       请选择：\n";
 	cout << '\n';
-	cout << "                                1.开始养猪成为百万富翁吧\n";
+	cout << "                                1.开始养猪赚够五百万吧\n";
 	cout << '\n';
 	cout << "                                2.养猪好无聊，不玩啦\n";
 	cout << '\n';
@@ -61,5 +61,5 @@ void printBuyPrice() {
 	cout << "              | 小花猪崽     ￥1300/头   |" << endl;
 	cout << "              | 大白花猪崽   ￥1000/头   |" << endl;
 	cout << "              ---------------------------" << endl;
-	cout << "当前余额：" << TotMoney << endl;
+	cout << "当前余额：    " << TotMoney << endl;
 }

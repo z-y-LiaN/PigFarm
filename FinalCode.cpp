@@ -117,7 +117,7 @@ int main()
 				}
 				case 2: {//出圈&购猪
 					if (MonthCount + DayCount / 30 < 3) {
-						cout << "上次出圈到现在饲养时间不足三月，请别着急出圈噢" << endl;
+						cout << "上次出圈到现在饲养时间不足三月，请别着急出圈噢\n" << endl;
 						break;
 					}
 					OutPigs(Stys);

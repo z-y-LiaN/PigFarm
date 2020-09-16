@@ -293,9 +293,9 @@ void RequireOnePig(PigSty*Stys)
 		}
 		else {
 			pigNum = i;
-			if (Stys[styNum].getHead() != NULL) break;
+			if (Stys[styNum].havePig(pigNum)) break;
 			else {
-				cout << "抱歉，该猪圈为空猪圈，请重新输入："; continue;
+				cout << "抱歉，此编号的猪不存在，请重新输入："; continue;
 			}
 		}
 	}
@@ -329,7 +329,12 @@ void OutPigs(PigSty* Stys) {
 	int temp = getAllPigs(Stys), outpignum = allPigsNum - temp;
 	allPigsNum = temp;
 	cout << endl;
-	cout << "本次出圈数： " << outpignum << "头    总价:" << sellprice << "元\n";
+	cout << "出圈信息：\n";
+	cout << "              ---------------------------\n";
+
+	cout << "              本次出圈数/头： " << setw(5) << outpignum << endl;
+	cout << "              总价/元：      " << setw(5) << sellprice << endl;
+	cout << "              ---------------------------\n";
 	TotMoney += sellprice;
 	int blackpig = 0, empSty = 0, FlowerPigCnt = 0;
 
